@@ -84,7 +84,7 @@ namespace COMP2007_Lab_3
                 // remove the selected student from the db
                 db.Students.Remove(deletedStudent);
 
-                // save my changes bacik to the db
+                // save my changes back to the db
                 db.SaveChanges();
 
                 // refresh the grid
