@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 // using statements that are required to connnect to EF DB
 using COMP2007_Lab_3.Models;
 using System.Web.ModelBinding;
+using System.Linq.Dynamic;
 
 namespace COMP2007_Lab_3
 {
@@ -18,6 +19,10 @@ namespace COMP2007_Lab_3
             // if loading page for first time, populate the student grid
             if (!IsPostBack)
             {
+                // default sort column
+                Session["SortColumn"] = "StudentID";
+                Session["SortDirection"] = "ASC";
+
                 // Get the student data
                 this.GetStudents();
             }
@@ -36,12 +41,14 @@ namespace COMP2007_Lab_3
             // connect to EF
             using (DefaultConnection db = new DefaultConnection())
             {
+                string SortString = Session["SortColumn"].ToString() + " " + Session["SortDirection"].ToString();
+
                 // query the students table using EF and LINQ
                 var Students = (from allStudents in db.Students
                                 select allStudents);
 
                 // bind the result to the GridView
-                StudentsGridview.DataSource = Students.ToList();
+                StudentsGridview.DataSource = Students.AsQueryable().OrderBy(SortString).ToList();
                 StudentsGridview.DataBind();
             }
         }
@@ -90,7 +97,7 @@ namespace COMP2007_Lab_3
          * This event handler allows pagination to occur for the students page
          * </summary>
          * 
-         * @method StudentsGridView_PAgeIndexChanging
+         * @method StudentsGridView_PageIndexChanging
          * @param {object} sender
          * @param {GridViewPageEventArgs} e
          * @return {void}
@@ -105,6 +112,16 @@ namespace COMP2007_Lab_3
 
         }
 
+        /**
+         * <summary>
+         * This event handler sets the size of the student list
+         * </summary>
+         * 
+         * @method PageSizeDropDownList_SelectedIndexChanged
+         * @param {object} sender
+         * @param {GridViewPageEventArgs} e
+         * @return {void}
+         */
         protected void PageSizeDropDownList_SelectedIndexChanged(object sender, EventArgs e)
         {
             // set the new list size
@@ -112,6 +129,56 @@ namespace COMP2007_Lab_3
 
             // refresh the grid
             this.GetStudents();
+        }
+
+        /**
+         * <summary>
+         * 
+         * </summary>
+         * 
+         * @method StudentsGridview_Sorting
+         * @param {object} sender
+         * @param {GridViewPageEventArgs} e
+         * @return {void}
+         */
+        protected void StudentsGridview_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            // get the column to sort by
+            Session["SortColumn"] = e.SortExpression;
+
+            // refresh the grid
+            this.GetStudents();
+
+            // toggle the direction
+            Session["SortDirection"] = Session["SortDirection"].ToString() == "ASC" ? "DESC" : "ASC";
+        }
+
+        protected void StudentsGridview_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (IsPostBack)
+            {
+                if (e.Row.RowType == DataControlRowType.Header) // if header has been clicked
+                {
+                    LinkButton linkButton = new LinkButton();
+
+                    for (int index = 0; index < StudentsGridview.Columns.Count - 1; index++)
+                    {
+                        if(StudentsGridview.Columns[index].SortExpression == Session["SortColumn"].ToString())
+                        {
+                            if (Session["SortDirection"].ToString() == "ASC")
+                            {
+                                linkButton.Text = " <i class='fa fa-caret-up fa-lg'></i>";
+                            }
+                            else
+                            {
+                                linkButton.Text = " <i class='fa fa-caret-down fa-lg'></i>";
+                            }
+
+                            e.Row.Cells[index].Controls.Add(linkButton);
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -19,12 +19,13 @@
                 </div>
                 <asp:GridView ID="StudentsGridview" runat="server" CssClass="table table-bordered table-striped table-hover" 
                     AutoGenerateColumns="false" DataKeyNames="StudentID" OnRowDeleting="StudentsGridview_RowDeleting" 
-                    AllowPaging="true" PageSize="5" OnPageIndexChanging="StudentsGridview_PageIndexChanging">
+                    AllowPaging="true" PageSize="5" OnPageIndexChanging="StudentsGridview_PageIndexChanging" 
+                    AllowSorting="true" OnSorting="StudentsGridview_Sorting" OnRowDataBound="StudentsGridview_RowDataBound">
                     <Columns>
-                        <asp:BoundField DataField="StudentID" HeaderText="Student ID" Visible="true" />
-                        <asp:BoundField DataField="LastName" HeaderText="Last Name" Visible="true" />
-                        <asp:BoundField DataField="FirstMidName" HeaderText="First Name" Visible="true" />
-                        <asp:BoundField DataField="EnrollmentDate" HeaderText="Enrollment Date" Visible="true" DataFormatString="{0:MMM dd, yyyy}"/>
+                        <asp:BoundField DataField="StudentID" HeaderText="Student ID" Visible="true" SortExpression="StudentID"/>
+                        <asp:BoundField DataField="LastName" HeaderText="Last Name" Visible="true" SortExpression="LastName"/>
+                        <asp:BoundField DataField="FirstMidName" HeaderText="First Name" Visible="true" SortExpression="FirstMidName"/>
+                        <asp:BoundField DataField="EnrollmentDate" HeaderText="Enrollment Date" Visible="true" DataFormatString="{0:MMM dd, yyyy}" SortExpression="EnrollmentDate"/>
                         <asp:CommandField HeaderText="Delete" DeleteText="<i class='fa fa-trash-o fa-lg'></i> Delete" ShowDeleteButton="true" ButtonType="Link" ControlStyle-CssClass="btn btn-danger btn-sm" />
                     </Columns>
                 </asp:GridView>
