@@ -19,7 +19,7 @@
                 </div>
                 <asp:GridView ID="StudentsGridview" runat="server" CssClass="table table-bordered table-striped table-hover" 
                     AutoGenerateColumns="false" DataKeyNames="StudentID" OnRowDeleting="StudentsGridview_RowDeleting" 
-                    AllowPaging="true" PageSize="5" OnPageIndexChanging="StudentsGridview_PageIndexChanging" 
+                    AllowPaging="true" PageSize="3" OnPageIndexChanging="StudentsGridview_PageIndexChanging" 
                     AllowSorting="true" OnSorting="StudentsGridview_Sorting" OnRowDataBound="StudentsGridview_RowDataBound" PagerStyle-CssClass="pagination-ys">
                     <Columns>
                         <asp:BoundField DataField="StudentID" HeaderText="Student ID" Visible="true" SortExpression="StudentID"/>
