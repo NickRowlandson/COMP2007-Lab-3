@@ -28,6 +28,7 @@ namespace COMP2007_Lab_3
             }
 
         }
+
         /**
          * <summary>
          * This method gets the student from the DB.
@@ -133,7 +134,7 @@ namespace COMP2007_Lab_3
 
         /**
          * <summary>
-         * 
+         * This event handler sets the column to sort by and sets the direction of the caret
          * </summary>
          * 
          * @method StudentsGridview_Sorting
@@ -153,6 +154,14 @@ namespace COMP2007_Lab_3
             Session["SortDirection"] = Session["SortDirection"].ToString() == "ASC" ? "DESC" : "ASC";
         }
 
+        /**
+         * <summary>
+         * This event handler checks to see if the header has been clicked then sets the caret icon depending on ASC or DESC
+         * </summary>
+         * 
+         * @method StudentsGridview_RowDataBound
+         * @return {void}
+         */
         protected void StudentsGridview_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (IsPostBack)

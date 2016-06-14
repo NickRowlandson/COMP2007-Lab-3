@@ -49,8 +49,7 @@ namespace COMP2007_Lab_3
             // Use Ef to connect to the server
             using (DefaultConnection db = new DefaultConnection())
             {
-                // Use the student model to create a new student object and also
-                // save a new record
+                // Use the student model to create a new student object and also save a new record
                 Student newStudent = new Student();
 
                 int StudentID = 0;
